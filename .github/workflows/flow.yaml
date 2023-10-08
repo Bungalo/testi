@@ -26,3 +26,5 @@ jobs:
       
       - name: build docker image
         run:  cd testi; docker build -t ekatest -f deployment/Dockerfile .  
+      - name: test
+        run:  pwd
