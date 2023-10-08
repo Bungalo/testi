@@ -1,0 +1,13 @@
+name: 'Run tests and build image'
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+concurrency:
+  group: testbuild-group
+  cancel-in-progress: true
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+  steps:
