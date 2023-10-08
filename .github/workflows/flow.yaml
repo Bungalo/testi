@@ -29,4 +29,10 @@ jobs:
       #  run: testi/script.sh
       #- name: cat flow
       #  run:  pwd; cat testi/.github/workflows/flow.yaml
-#as
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkkiaut
+        run:  git clone https://github.com/Bungalo/testi.git ; cd testi ; git checkout $GITHUB_HEAD_REF
+      - name: build docker image
+        run:  docker -h  
