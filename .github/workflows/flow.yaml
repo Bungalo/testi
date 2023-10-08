@@ -18,7 +18,7 @@ jobs:
       - name: check go
         run: go version
       - name: Install dependencies
-        run: go get testi
+        run: go get ./testi
       - name: Build
         run: go build -v testi/...
       - name: Test with the Go CLI
