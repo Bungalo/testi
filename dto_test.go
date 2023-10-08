@@ -11,7 +11,7 @@ func TestGetAllEmpty(t *testing.T) {
 	expected := data{}
 	data := dto.getAll()
 
-	//assert.Equal(t, expected, data)
+	assert.Equal(t, expected, data)
 	assert.Equal(t, "asd", "osd")
 }
 
