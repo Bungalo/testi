@@ -12,6 +12,7 @@ func TestGetAllEmpty(t *testing.T) {
 	data := dto.getAll()
 
 	assert.Equal(t, expected, data)
+	assert.Equal(t, "asd", "osd")
 }
 
 func TestGetAllWithData(t *testing.T) {

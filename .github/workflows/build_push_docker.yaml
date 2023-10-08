@@ -1,0 +1,22 @@
+name: 'Build and push docker'
+on:
+  workflow_dispatch:
+  pull_request: 
+    types: [closed]
+    branches:
+      - main
+
+concurrency:
+  group: testbuild-group
+  cancel-in-progress: true
+jobs:
+  run-tests:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone and switch to branch
+        run:  git clone https://github.com/Bungalo/testi.git ; cd testi; git checkout $GITHUB_HEAD_REF
+      - name: Build docker image
+        run:  cd testi; docker build -t $GITHUB_SHA -f deployment/Dockerfile .
+      - name: check image
+        run:  docker image ls
