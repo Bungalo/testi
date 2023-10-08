@@ -10,5 +10,5 @@ concurrency:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
-  steps:
-    uses: actions/checkout@v4
+    steps:
+      uses: actions/checkout@v4
