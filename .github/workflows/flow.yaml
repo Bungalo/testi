@@ -17,3 +17,5 @@ jobs:
         run:  chmod +x testi/script.sh
       - name: hello
         run: testi/script.sh
+      - name: fetch branch
+        run: git fetch --depth 1 $GITHUB_REF
