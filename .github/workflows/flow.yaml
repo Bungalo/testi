@@ -14,6 +14,6 @@ jobs:
       - name: Checkkiaut
         run:  git clone https://github.com/Bungalo/testi.git
       - name: Make script executable
-        run:  chmod +x script.sh
+        run:  chmod +x testi/script.sh
       - name: hello
-        run: ./script.sh
+        run: testi/script.sh
