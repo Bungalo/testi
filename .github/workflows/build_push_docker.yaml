@@ -1,4 +1,4 @@
-name: 'Build and push Docker image, update features.yaml'
+name: 'Build and push docker'
 on:
   workflow_dispatch:
   pull_request: 
