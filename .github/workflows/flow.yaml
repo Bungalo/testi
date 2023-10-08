@@ -17,4 +17,4 @@ jobs:
         run:  chmod +x testi/script.sh
       - name: hello
         run: testi/script.sh
-#asd
+#as
