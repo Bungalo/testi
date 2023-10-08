@@ -12,10 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkkiaut
-        run:  git clone https://github.com/Bungalo/testi.git
+        run:  git clone https://github.com/Bungalo/testi.git ; cd testi ; git branch
       - name: Make script executable
         run:  chmod +x testi/script.sh
       - name: hello
         run: testi/script.sh
-      - name: fetch branch
-        run: cd testi; git fetch --depth 1 $GITHUB_REF
