@@ -17,17 +17,12 @@ jobs:
         run:  git clone https://github.com/Bungalo/testi.git ; cd testi ; git checkout $GITHUB_HEAD_REF
       - name: check go
         run: go version
-      - name: Install dependencies
-        run: cd testi; go get .
-      - name: Build
-        run: cd testi; go build -v ./...
-      - name: Test with the Go CLI
-        run: cd testi; go test
-      #- name: Make script executable
-      #  run:  chmod +x testi/script.sh
-      #- name: hello
-      #  run: testi/script.sh
-      #- name: cat flow
-      #  run:  pwd; cat testi/.github/workflows/flow.yaml
+      #- name: Install dependencies
+      #  run: cd testi; go get .
+      #- name: Build
+      #  run: cd testi; go build -v ./...
+      #- name: Test with the Go CLI
+      #  run: cd testi; go test
+      
       - name: build docker image
-        run:  docker -h  
+        run:  cd testi; docker build -t ekatest -f deployment/Dockerfile .  
