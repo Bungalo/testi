@@ -13,7 +13,7 @@ concurrency:
 jobs:
   build-and-push:
     env: 
-      REPO_DIR: "testi"
+      REPO_DIR: "Bungalo/testi"
     #if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
