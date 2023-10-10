@@ -37,7 +37,7 @@ jobs:
           cd $REPO_DIR; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA'"' deployment/feature.yaml
           cat $REPO_DIR/deployment/feature.yaml
           git add deployment/feature.yaml; git commit -m "Update image tag"; git push https://Bungalo:${{ secrets.REPOTOKEN }}@github.com/$REPO_DIR.git      
-- name: check file
+      - name: check file
         run:  cat testi/deployment/feature.yaml
       - name: Push updated file
         run:  cd testi; git add deployment/feature.yaml; git commit -m "Update image tag"; git push https://Bungalo:${{ secrets.REPOTOKEN }}@github.com/Bungalo/testi.git
