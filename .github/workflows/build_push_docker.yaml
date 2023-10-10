@@ -15,14 +15,19 @@ jobs:
 #    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      #- name: Identify for github
-      #  run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "Bungalo";
+      - name: Identify for github
+        run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "Bungalo";
       - name: Clone
         run:  git clone https://github.com/Bungalo/testi.git
       - name: Build docker image
         run:  cd testi; docker build -t joonatan:$GITHUB_SHA -f deployment/Dockerfile .
       - name: check image
         run:  docker image ls
+      
+      - name: Set up AWS variables
+        run:  export AWS_ACCESS_KEY_ID=${{ AWS_KEY }}; export AWS_SECRET_ACCESS_KEY=${{ AWS_SECRET_KEY }};
+      - name: Get ECR auth token
+        run:  aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
       #- name: push to ECR
       #  run:  
       
