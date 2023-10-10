@@ -25,4 +25,6 @@ jobs:
       #- name: Update feature.yaml
       #  run:  
       - name: test yq
-        run: yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image)' = "test" testi/deployment/feature.yaml
+        run:  yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "test"' testi/deployment/feature.yaml
+      - name: check file
+        run:  cat testi/deployment/feature.yaml
