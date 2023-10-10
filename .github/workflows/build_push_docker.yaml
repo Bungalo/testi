@@ -31,7 +31,7 @@ jobs:
             docker push public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA
       
       - name: Update feature.yaml
-        run:  cd testi; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "' public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA'"' deployment/feature.yaml
+        run:  cd testi; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA'"' deployment/feature.yaml
       - name: check file
         run:  cat testi/deployment/feature.yaml
       - name: Push updated file
