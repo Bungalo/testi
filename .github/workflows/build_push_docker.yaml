@@ -17,12 +17,12 @@ jobs:
     steps:
       - name: Clone and switch to branch
         run:  git clone https://github.com/Bungalo/testi.git ; cd testi; git checkout $GITHUB_HEAD_REF
-      - name: Build docker image
-        run:  cd testi; docker build -t pretia/joonatan:$GITHUB_SHA -f deployment/Dockerfile .
+      #- name: Build docker image
+      #  run:  cd testi; docker build -t pretia/joonatan:$GITHUB_SHA -f deployment/Dockerfile .
       - name: check image
         run:  docker image ls
       
       #- name: Update feature.yaml
       #  run:  
       - name: test yq
-        run: yq
+        run: yq testi/deployment/feature.yaml
