@@ -1,6 +1,7 @@
 name: 'Build and push docker'
 on:
   workflow_dispatch:
+  push:
   pull_request: 
     types: [closed]
     branches:
