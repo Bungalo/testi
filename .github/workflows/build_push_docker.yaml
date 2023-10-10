@@ -16,8 +16,9 @@ jobs:
       id-token: write
       contents: write
     env: 
-      REPO_NAME: "testi"
-      REPO_USER: "Bungalo"
+      REPO_NAME:  "testi"
+      REPO_USER:  "Bungalo"
+      USERNAME:   "Bungalo"
     #if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
@@ -44,7 +45,4 @@ jobs:
           cat deployment/feature.yaml
           git add deployment/feature.yaml
           git commit -m "Update image tag"
-          #This push needs to use ssh/other non-repo dependent authentication
-          git push https://Bungalo:${{ secrets.GITHUB_TOKEN }}@github.com/$REPO_USER/$REPO_NAME.git      
-      - name: check file
-        run:  cat testi/deployment/feature.yaml
+          git push https://$USERNAME:${{ secrets.GITHUB_TOKEN }}@github.com/$REPO_USER/$REPO_NAME.git      
