@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone
-        run:  git clone https://github.com/Bungalo/testi.git
+        run:  git clone git@github.com:Bungalo/testi.git
       - name: Build docker image
         run:  cd testi; docker build -t joonatan:$GITHUB_SHA -f deployment/Dockerfile .
       - name: check image
@@ -29,6 +29,6 @@ jobs:
       - name: check file
         run:  cat testi/deployment/feature.yaml
       - name: Identify for git
-        run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "tosting"
+        run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "tosting"; 
       - name: Push updated file
         run:  cd testi; git add deployment/feature.yaml; git commit -m "Update image tag"; git push
