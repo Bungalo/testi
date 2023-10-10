@@ -20,7 +20,7 @@ jobs:
       - name: Clone
         run:  git clone https://github.com/Bungalo/testi.git
       - name: Build docker image
-        run:  cd testi; docker build -t joonatan:$GITHUB_SHA -f deployment/Dockerfile .
+        run:  cd testi; docker build -t public.ecr.aws/t8z1b8a3/joonatan:$GITHUB_SHA -f deployment/Dockerfile .
       - name: check image
         run:  docker image ls
       
