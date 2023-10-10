@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Identify for github
-        run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "Bungalo"; echo '"$ASD"'>actionskey; chmod 400 actionskey
-      - name: Clone with ssh key
-        run:  GIT_SSH_COMMAND='ssh -i actionskey -o IdentitiesOnly=yes' git clone git@github.com:Bungalo/testi.git
+        run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "Bungalo";
+      - name: Clone
+        run:  git clone https://github.com/Bungalo/testi.git
       - name: Build docker image
         run:  cd testi; docker build -t joonatan:$GITHUB_SHA -f deployment/Dockerfile .
       - name: check image
@@ -31,4 +31,4 @@ jobs:
       - name: check file
         run:  cat testi/deployment/feature.yaml
       - name: Push updated file
-        run:  cd testi; git add deployment/feature.yaml; git commit -m "Update image tag"; git push
+        run:  cd testi; git add deployment/feature.yaml; git commit -m "Update image tag"; git push https://Bungalo:${{ secrets.REPOTOKEN }}@github.com/Bungalo/testi.git
