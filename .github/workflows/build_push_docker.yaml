@@ -31,7 +31,7 @@ jobs:
           role-to-assume: arn:aws:iam::270903434671:role/github_actions
           aws-region: us-east-1
       - name: Authenticate with ECR and push image
-        env:  
+       # env:  
             #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY }}
             #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run:  |  
