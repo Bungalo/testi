@@ -11,14 +11,16 @@ concurrency:
   group: testbuild-group
   cancel-in-progress: true
 jobs:
+  env: 
+    REPO_DIR: "testi"
   build-and-push:
-#    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Identify for github
         run:  git config --global user.email "example@exmple123.com"; git config --global user.name "user";
       - name: Clone
-        run:  git clone https://github.com/Bungalo/testi.git
+        run:  git clone https://github.com/$REPO_DIR
       
       - name: Authenticate with ECR and push image
         env:  
@@ -26,13 +28,16 @@ jobs:
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run:  |  
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-            cd testi; docker build -t public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA -f deployment/Dockerfile .
+            cd $REPO_DIR; docker build -t public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA -f deployment/Dockerfile .
             docker image ls
             docker push public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA
       
-      - name: Update feature.yaml
-        run:  cd testi; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA'"' deployment/feature.yaml
-      - name: check file
+      - name: Update and push feature.yaml
+        run:  |
+          cd $REPO_DIR; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA'"' deployment/feature.yaml
+          cat $REPO_DIR/deployment/feature.yaml
+          git add deployment/feature.yaml; git commit -m "Update image tag"; git push https://Bungalo:${{ secrets.REPOTOKEN }}@github.com/$REPO_DIR.git      
+- name: check file
         run:  cat testi/deployment/feature.yaml
       - name: Push updated file
         run:  cd testi; git add deployment/feature.yaml; git commit -m "Update image tag"; git push https://Bungalo:${{ secrets.REPOTOKEN }}@github.com/Bungalo/testi.git
