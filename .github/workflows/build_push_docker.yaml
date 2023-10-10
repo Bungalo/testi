@@ -28,5 +28,7 @@ jobs:
         run:  cd testi; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'joonatan:$GITHUB_SHA'"' deployment/feature.yaml
       - name: check file
         run:  cat testi/deployment/feature.yaml
+      - name: Identify for git
+        run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "tosting"
       - name: Push updated file
         run:  cd testi; git add deployment/feature.yaml; git commit -m "Update image tag"; git push
