@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Identify for github
-        run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "Bungalo";
+        run:  git config --global user.email "example@exmple123.com"; git config --global user.name "user";
       - name: Clone
         run:  git clone https://github.com/Bungalo/testi.git
       
