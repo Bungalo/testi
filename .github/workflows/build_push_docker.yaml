@@ -14,7 +14,7 @@ jobs:
   build-and-push:
     permissions:
       id-token: write
-      contents: read
+      contents: write
     env: 
       REPO_NAME: "testi"
       REPO_USER: "Bungalo"
