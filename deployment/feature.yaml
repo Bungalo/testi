@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: public.ecr.aws/t8z1b8a3/pretia_repo:63e9af2d5ebf972a51bfbc4755546f536da18519 #ECR here
+          image: public.ecr.aws/t8z1b8a3/pretia_repo:abd33e0722f2314aac8b5d0c2e9aaff166ddf1a0 #ECR here
           resources:
             requests:
               memory: "200M"
