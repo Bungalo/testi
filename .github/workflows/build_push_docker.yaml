@@ -19,10 +19,6 @@ jobs:
         run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "Bungalo";
       - name: Clone
         run:  git clone https://github.com/Bungalo/testi.git
-      - name: Build docker image
-        run:  cd testi; docker build -t public.ecr.aws/t8z1b8a3/joonatan:$GITHUB_SHA -f deployment/Dockerfile .
-      - name: check image
-        run:  docker image ls
       
       - name: Authenticate with ECR and push image
         env:  
@@ -30,7 +26,9 @@ jobs:
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run:  |  
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-            docker push public.ecr.aws/t8z1b8a3/joonatan
+            cd testi; docker build -t public.ecr.aws/t8z1b8a3/joonatan:$GITHUB_SHA -f deployment/Dockerfile .
+            docker image ls
+            docker push public.ecr.aws/t8z1b8a3/joonatan:$GITHUB_SHA
       
       - name: Update feature.yaml
         run:  cd testi; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'joonatan:$GITHUB_SHA'"' deployment/feature.yaml
