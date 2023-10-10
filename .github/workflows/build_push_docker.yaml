@@ -12,6 +12,9 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-and-push:
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
     env: 
       REPO_NAME: "testi"
       REPO_USER: "Bungalo"
@@ -22,11 +25,15 @@ jobs:
         run:  git config --global user.email "example@exmple123.com"; git config --global user.name "user";
       - name: Clone
         run:  git clone https://github.com/$REPO_USER/$REPO_NAME
-      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::270903434671:role/github_actions
+          aws-region: us-east-1
       - name: Authenticate with ECR and push image
         env:  
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+            #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY }}
+            #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run:  |  
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
             cd $REPO_NAME; docker build -t public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA -f deployment/Dockerfile .
