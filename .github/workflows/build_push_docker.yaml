@@ -13,14 +13,15 @@ concurrency:
 jobs:
   build-and-push:
     env: 
-      REPO_DIR: "Bungalo/testi"
+      REPO_NAME: "testi"
+      REPO_USER: "Bungalo"
     #if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Identify for github
         run:  git config --global user.email "example@exmple123.com"; git config --global user.name "user";
       - name: Clone
-        run:  git clone https://github.com/$REPO_DIR
+        run:  git clone https://github.com/$REPO_USER/$REPO_NAME
       
       - name: Authenticate with ECR and push image
         env:  
@@ -28,15 +29,15 @@ jobs:
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run:  |  
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-            cd $REPO_DIR; docker build -t public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA -f deployment/Dockerfile .
+            cd $REPO_NAME; docker build -t public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA -f deployment/Dockerfile .
             docker image ls
             docker push public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA
       
       - name: Update and push feature.yaml
         run:  |
-          cd $REPO_DIR; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA'"' deployment/feature.yaml
-          cat $REPO_DIR/deployment/feature.yaml
-          git add deployment/feature.yaml; git commit -m "Update image tag"; git push https://Bungalo:${{ secrets.REPOTOKEN }}@github.com/$REPO_DIR.git      
+          cd $REPO_NAME; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA'"' deployment/feature.yaml
+          cat $REPO_NAME/deployment/feature.yaml
+          git add deployment/feature.yaml; git commit -m "Update image tag"; git push https://$REPO_USER:${{ secrets.REPOTOKEN }}@github.com/$REPO_NAME.git      
       - name: check file
         run:  cat testi/deployment/feature.yaml
       - name: Push updated file
