@@ -36,7 +36,7 @@ jobs:
       - name: Update and push feature.yaml
         run:  |
           cd $REPO_NAME; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA'"' deployment/feature.yaml
-          cat $REPO_NAME/deployment/feature.yaml
+          cat deployment/feature.yaml
           git add deployment/feature.yaml; git commit -m "Update image tag"; git push https://$REPO_USER:${{ secrets.REPOTOKEN }}@github.com/$REPO_NAME.git      
       - name: check file
         run:  cat testi/deployment/feature.yaml
