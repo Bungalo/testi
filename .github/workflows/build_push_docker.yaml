@@ -11,10 +11,10 @@ concurrency:
   group: testbuild-group
   cancel-in-progress: true
 jobs:
-  env: 
-    REPO_DIR: "testi"
   build-and-push:
-    if: github.event.pull_request.merged == true
+    env: 
+      REPO_DIR: "testi"
+    #if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Identify for github
