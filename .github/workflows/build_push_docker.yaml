@@ -26,7 +26,7 @@ jobs:
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run:  |  
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-            cd testi; docker build -t public.ecr.aws/t8z1b8a3/joonatan:$GITHUB_SHA -f deployment/Dockerfile .
+            cd testi; docker build -t public.ecr.aws/t8z1b8a3/pretia-repo:$GITHUB_SHA -f deployment/Dockerfile .
             docker image ls
             docker push public.ecr.aws/t8z1b8a3/pretia-repo:$GITHUB_SHA
       
