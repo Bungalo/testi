@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: joonatan:96dc1dbbb3913816ec4e2a174fa0a27054a49694 #ECR here
+          image: joonatan:24416e7af43cdcd802586736e4766c29a7b29868 #ECR here
           resources:
             requests:
               memory: "200M"
