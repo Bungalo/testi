@@ -29,6 +29,6 @@ jobs:
       - name: check file
         run:  cat testi/deployment/feature.yaml
       - name: Identify for git
-        run:  git config --global user.email "tosting@tosting123.com"; git config --global user.name "tosting"; 
+        run:  echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token 
       - name: Push updated file
         run:  cd testi; git add deployment/feature.yaml; git commit -m "Update image tag"; git push
