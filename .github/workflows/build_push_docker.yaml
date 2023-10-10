@@ -7,7 +7,7 @@ on:
       - main
 
 concurrency:
-  group: testbuild-group
+  group: buildpushfeature-group
   cancel-in-progress: true
 jobs:
   build-and-push:

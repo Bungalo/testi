@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
 concurrency:
-  group: testbuild-group
+  group: releasebuild-group
   cancel-in-progress: true
 jobs:
   build-and-push:
