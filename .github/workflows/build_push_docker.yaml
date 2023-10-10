@@ -12,19 +12,21 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-and-push:
-    #if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Clone and switch to branch
-        run:  git clone https://github.com/Bungalo/testi.git ; cd testi; git checkout $GITHUB_HEAD_REF
-      #- name: Build docker image
-      #  run:  cd testi; docker build -t pretia/joonatan:$GITHUB_SHA -f deployment/Dockerfile .
+      - name: Clone
+        run:  git clone https://github.com/Bungalo/testi.git
+      - name: Build docker image
+        run:  cd testi; docker build -t joonatan:$GITHUB_SHA -f deployment/Dockerfile .
       - name: check image
         run:  docker image ls
-      
-      #- name: Update feature.yaml
+      #- name: push to ECR
       #  run:  
-      - name: test yq
-        run:  yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'joonatan:$GITHUB_SHA'" ' testi/deployment/feature.yaml
+      
+      - name: Update feature.yaml
+        run:  cd testi; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'joonatan:$GITHUB_SHA'"' deployment/feature.yaml
       - name: check file
         run:  cat testi/deployment/feature.yaml
+      - name: Push updated file
+        run:  cd testi; git add deployment/feature.yaml; git commit -m "Update image tag"; git push
