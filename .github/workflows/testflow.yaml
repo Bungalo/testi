@@ -34,4 +34,5 @@ jobs:
           echo $GITHUB_REF_NAME 
           cd $REPO_NAME
           TAG_RELEASE_MSG="$(git tag -l --format='%(contents:subject)' $GITHUB_REF_NAME)"
-          gh release create $GITHUB_REF_NAME --generate-notes --verify-tag -n 'Release notes "'$TAG_RELEASE_MSG'" '
+          touch notes_file; echo "What's New" > notes_file; echo $TAG_RELEASE_MSG >> notes_file
+          gh release create $GITHUB_REF_NAME --generate-notes --verify-tag -F notes_file
