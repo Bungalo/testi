@@ -1,13 +1,11 @@
-name: 'Build and push docker'
+name: 'Release tag'
 on:
   workflow_dispatch:
-  pull_request: 
-    types: [closed]
-    branches:
-      - main
-
+  push:
+    tags:
+      - '*'
 concurrency:
-  group: buildpushfeature-group
+  group: releasebuild-group
   cancel-in-progress: true
 jobs:
   build-and-push:
@@ -18,7 +16,7 @@ jobs:
       REPO_NAME:  "testi"
       REPO_USER:  "Bungalo"
       USERNAME:   "Bungalo"
-    #if: github.event.pull_request.merged == true
+      GH_TOKEN:   "$GITHUB_TOKEN"
     runs-on: ubuntu-latest
     steps:
       - name: Identify for github
@@ -34,14 +32,23 @@ jobs:
       - name: Authenticate with ECR and push image
         run:  |  
             aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-            cd $REPO_NAME; docker build -t public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA -f deployment/Dockerfile .
+            cd $REPO_NAME; docker build -t public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_REF_NAME -f deployment/Dockerfile .
             docker image ls
-            docker push public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA
+            docker push public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_REF_NAME
       
-      - name: Update and push feature.yaml
+      - name: Update and push production.yaml
         run:  |
-          cd $REPO_NAME; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_SHA'"' deployment/feature.yaml
-          cat deployment/feature.yaml
-          git add deployment/feature.yaml
+          cd $REPO_NAME; yq -i '(.spec.template.spec.containers[] | select(.name == "nginx") | .image) = "'public.ecr.aws/t8z1b8a3/pretia_repo:$GITHUB_REF_NAME'"' deployment/production.yaml
+          cat deployment/production.yaml
+          git add deployment/production.yaml
           git commit -m "Update image tag"
           git push https://$USERNAME:${{ secrets.GITHUB_TOKEN }}@github.com/$REPO_USER/$REPO_NAME.git      
+      - name: Create release from tag 
+        run:  | 
+          cd $REPO_NAME
+          #Get message from tag
+          TAG_RELEASE_MSG="$(git tag -l --format='%(contents:subject)' $GITHUB_REF_NAME)"
+          touch ../notes_file; echo "What's New" > ../notes_file; echo $TAG_RELEASE_MSG >> ../notes_file
+          #Combine automatically generated notes with notes from the tag and create release
+          gh release create $GITHUB_REF_NAME --generate-notes --verify-tag -F ../notes_file
+          rm ../notes_file
