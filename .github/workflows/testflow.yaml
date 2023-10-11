@@ -31,3 +31,4 @@ jobs:
       - name: Authenticate with ECR and push image
         run:  | 
           echo $GITHUB_REF_NAME 
+          gh release create $GITHUB_REF_NAME --generate-notes
