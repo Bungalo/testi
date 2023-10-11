@@ -33,4 +33,4 @@ jobs:
         run:  | 
           echo $GITHUB_REF_NAME 
           cd $REPO_NAME
-          gh release create $GITHUB_REF_NAME --notes-from-tag --generate-notes --verify-tag -n "asdtest"
+          gh release create $GITHUB_REF_NAME --generate-notes --verify-tag -n "asdtest"
