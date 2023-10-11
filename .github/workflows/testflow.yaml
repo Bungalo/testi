@@ -16,6 +16,7 @@ jobs:
       REPO_NAME:  "testi"
       REPO_USER:  "Bungalo"
       USERNAME:   "Bungalo"
+      GH_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Identify for github
