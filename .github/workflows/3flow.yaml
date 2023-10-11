@@ -16,7 +16,7 @@ jobs:
       REPO_NAME:  "testi"
       REPO_USER:  "Bungalo"
       USERNAME:   "Bungalo"
-      GH_TOKEN:   "$GITHUB_TOKEN"
+      GH_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Identify for github
@@ -48,7 +48,8 @@ jobs:
           cd $REPO_NAME
           #Get message from tag
           TAG_RELEASE_MSG="$(git tag -l --format='%(contents:subject)' $GITHUB_REF_NAME)"
-          touch ../notes_file; echo "What's New" > ../notes_file; echo $TAG_RELEASE_MSG >> ../notes_file
+          touch ../notes_file; echo "What's New" > ../notes_file; echo "$TAG_RELEASE_MSG" >> ../notes_file
+          echo "----asd----"
           #Combine automatically generated notes with notes from the tag and create release
           gh release create $GITHUB_REF_NAME --generate-notes --verify-tag -F ../notes_file
           rm ../notes_file
