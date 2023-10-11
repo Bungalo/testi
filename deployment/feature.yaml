@@ -17,6 +17,7 @@ spec:
       containers:
         - name: nginx
           image: nginx #ECR here
+
           resources:
             requests:
               memory: "200M"
